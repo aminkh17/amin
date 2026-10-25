@@ -4,8 +4,11 @@
 	"main": "@astrojs/cloudflare/entrypoints/server",
 	"compatibility_date": "2026-10-25",
 	"compatibility_flags": ["nodejs_compat"],
+	// Production is served only from the custom domain. Rollback uses the
+	// previous kuara-dev deployment or a Cloudflare version rollback.
 	"workers_dev": false,
-	// Source-only extraction: no custom domains, D1, R2, KV, Images or cron.
-	// amin.kuara.dev still belongs to the existing kuara-dev deployment.
-	// A hosting migration requires a separate explicit cutover.
+	"preview_urls": false,
+	// Only the personal hostname moves here. kuara.dev stays on kuara-dev.
+	"routes": [{ "pattern": "amin.kuara.dev", "custom_domain": true }],
+	// No D1, R2, KV, Images or cron bindings are required.
 }

@@ -201,7 +201,7 @@
 	.portfolio-page .prompt .terminal-only { display: none; }
 	.portfolio-page .command-output { padding: 0 14px; }
 	.portfolio-page .page-footer { display: block; font-size: 9px; }
-	.portfolio-page .page-footer button { margin-top: 4px; }
+	.portfolio-page .page-footer button { display: block; margin-top: 4px; }
 	.portfolio-page .consent { padding: 22px; }
 }
 

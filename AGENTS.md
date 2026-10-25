@@ -1,12 +1,16 @@
 # Amin personal portfolio
 
-Standalone Astro + Cloudflare-adapter source project for `amin.kuara.dev`, extracted from `../Kuara.dev`. No EmDash, React, Three.js, D1, R2, KV, Images or scheduled maintenance is required.
+Standalone Astro + Cloudflare Workers source project for `amin.kuara.dev`, extracted from `../Kuara.dev`. No EmDash, React, Three.js, D1, R2, KV, Images or scheduled maintenance is required.
 
-## Source-only extraction, not a hosting cutover
+## Production and rollback
 
-- The user requested **sources only**. Production still runs from the `kuara-dev` Worker and the transitional sources in `../Kuara.dev`.
-- Do not deploy, attach/transfer domains, delete Kuara's copy or change the studio/admin without separate authorization. This project intentionally has no deploy script or custom-domain route.
-- This is an independent Git repository. The user selected `https://github.com/aminkh17/amin.git` as `origin`, chose MIT and approved the first source-only commit/push. Source publication does not authorize a hosting cutover; later commits/pushes still need task-specific authorization.
+- `amin.kuara.dev` is served by the independent `amin-portfolio` Worker. `kuara.dev` and its EmDash studio/admin remain on `kuara-dev`; `telefi.kuara.dev` remains on `telefi-site`.
+- `workers_dev` and preview URLs are disabled. The only production route is the `amin.kuara.dev` custom domain.
+- Source pushes do not auto-deploy. A production deploy must be run locally because the real résumé is external and generated context is intentionally untracked.
+- Cloudflare retains the `kuara-dev` deployment and earlier versions from before the 2026-10-25 cutover. The old personal site can be restored by reassigning the `amin.kuara.dev` custom domain to `kuara-dev`; no DNS or database migration is required.
+- The local Kuara snapshot branch is `backup/pre-amin-migration-2026-10-25` (`adb6128`) in `../Kuara.dev`. Its working tree was not altered by creating the snapshot.
+- Do not delete the old Kuara personal-site code or remove its résumé build inputs until a stable observation period and separate authorization. Do not touch the studio/admin or unrelated Kuara routes as part of this migration.
+- This is an independent Git repository. The user selected `https://github.com/aminkh17/amin.git` as `origin`, chose MIT and approved source publication. Commits/pushes beyond the reviewed migration change still need task-specific authorization.
 
 ## Commands
 
@@ -15,8 +19,11 @@ bun install
 bun test
 bun run typecheck
 bun run build
+bun audit
 bun dev                 # localhost:4323/
 bun run preview         # localhost:4324/ after build
+bunx wrangler deploy    # production; requires the external résumé
+bunx wrangler deployments status --name amin-portfolio
 ```
 
 ## Data and privacy

@@ -7,6 +7,8 @@ import "../styles/portfolio.css";
 const title = "Amin Khodabandeh — Engineering, cloud & AI";
 Astro.response.headers.set("Referrer-Policy", "no-referrer");
 Astro.response.headers.set("X-Content-Type-Options", "nosniff");
+Astro.response.headers.set("X-Frame-Options", "SAMEORIGIN");
+Astro.response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
 ---
 
 <!doctype html>

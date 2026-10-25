@@ -1,12 +1,42 @@
 # Amin personal portfolio
 
-Standalone sources for **amin.kuara.dev**, extracted from the Kuara studio project. Astro serves a compact anonymous overview with randomly selected Terminal/QBasic themes and an optional, browser-local résumé assistant.
+Production sources for **https://amin.kuara.dev**, extracted from the Kuara studio project. Astro serves a compact anonymous overview with randomly selected Terminal/QBasic themes and an optional, browser-local résumé assistant.
 
-## Extraction status
+## Deployment status
 
-**Source extraction only — hosting has not moved.** The live domain is still served by the original `kuara-dev` Cloudflare Worker and the transitional copy in `../Kuara.dev`. Nothing in that project was removed. This repository has no custom-domain route, no deploy script and no database/storage bindings. Do not attach the production domain until a separately approved migration.
+Live since **2026-10-25** on the independent Cloudflare Worker **`amin-portfolio`**:
 
-There is no EmDash, React, Three.js, CMS seed, database, storage bucket, session store or cron dependency in this app. No Kuara secrets or Git history were copied.
+| Hostname | Worker |
+| --- | --- |
+| `amin.kuara.dev` | `amin-portfolio` |
+| `kuara.dev` and EmDash studio/admin | `kuara-dev` — unchanged |
+| `telefi.kuara.dev` | `telefi-site` — unchanged |
+
+The `workers.dev` and preview URLs are disabled; production is served only from the custom domain. There is no EmDash, React, Three.js, CMS seed, database, storage bucket, session store or cron dependency in this app. No Kuara secrets or Git history were copied.
+
+## Deploy and roll back
+
+A production build needs the external résumé described below. A fresh public checkout cannot deploy the real site by itself, and generated context must not be committed.
+
+```bash
+bun install --frozen-lockfile
+bun test
+bun run typecheck
+bun run build
+bun audit
+bunx wrangler deploy
+```
+
+`wrangler deploy` uses the compiled Worker in `dist/` and attaches only the `amin.kuara.dev` custom domain. Run it locally, never from CI with real résumé data. A domain-only change can use `bunx wrangler triggers deploy --name amin-portfolio` after a build, but that command is marked experimental by Wrangler.
+
+Rollback does not require a DNS or database restore:
+
+- **Bad code on the new Worker:** inspect Cloudflare versions with `bunx wrangler deployments status --name amin-portfolio`, then `bunx wrangler rollback <version-id> --name amin-portfolio`.
+- **Restore the old personal site:** reassign the `amin.kuara.dev` custom domain from `amin-portfolio` back to `kuara-dev` in the Cloudflare dashboard. The old worker is still deployed. Its cutover version was `6923d9a7-f7f2-444a-abba-4db48738b6c8`, deployment `186fdf70-dc84-4629-a83b-17de6d81ea49`.
+- **Local source fallback:** `../Kuara.dev` has branch `backup/pre-amin-migration-2026-10-25` (`adb6128`) containing the live source snapshot from before the move.
+- The new Worker's cutover version was `abf0afd4-1ca0-40a3-9dac-1f145a121e47`.
+
+Do not delete the old Kuara personal-site code, the old deployment or the résumé build inputs until the new Worker has been stable for a deliberate observation period. The studio, admin, `kuara.dev` homepage and unrelated routes are outside this migration.
 
 ## Run locally
 
@@ -67,18 +97,11 @@ Qwen2.5 0.5B q4f32 runs through WebLLM in a browser worker (roughly 350 MB model
 
 Routine lists are concise. Credential status/dates are discussed only when asked; missing dates do not prove current validity or expiry. Numerical outcomes remain résumé-reported claims. `hide` is formatting metadata, not access control.
 
-## Git and later hosting migration
+## Git and source publication
 
-Source repository: **https://github.com/aminkh17/amin**, configured as `origin`. The user selected the MIT license and approved source publication after extraction. Pushing source does not deploy or migrate the live site; there is no automatic production deployment configured here.
+Source repository: **https://github.com/aminkh17/amin**, configured as `origin`. The user selected the MIT license and approved source publication. Pushing source does not deploy the site; there is no automatic production deployment configured here.
 
-Later, with explicit approval:
-
-1. Choose/verify the independent Worker name and deployment workflow.
-2. Deploy and verify without taking over the production hostname.
-3. Transfer `amin.kuara.dev` from the shared Worker and verify both sites.
-4. Remove the transitional Amin code and résumé-build dependency from Kuara, preserving its storm homepage, EmDash admin and unrelated routes.
-
-Keep real input, generated artifacts, owner-specific hints and credentials out of commits and public build artifacts. Tests use fictional data; a full build still requires a deliberately configured résumé matching the public profile. This personal source repository is not a turnkey, identity-neutral template.
+The 2026-10-25 hosting migration is tracked in Git as a reviewed source change. Keep real input, generated artifacts, owner-specific hints and credentials out of commits and public build artifacts. Tests use fictional data; a full build still requires a deliberately configured résumé matching the public profile. This personal source repository is not a turnkey, identity-neutral template.
 
 ## Dependency security
 
