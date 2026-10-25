@@ -1,0 +1,24 @@
+/* Personal-portfolio palette only. No Kuara storm or CMS styles. */
+.portfolio-page {
+	--portfolio-bg: #101312;
+	--portfolio-panel: #171a19;
+	--portfolio-ink: #eae6dc;
+	--portfolio-secondary: #c8c5bb;
+	--portfolio-muted: #a1aaa2;
+	--portfolio-accent: #e7c58e;
+	--portfolio-line: #3d443e;
+	--portfolio-chrome: #202522;
+	--portfolio-chrome-ink: #dcded3;
+}
+
+[data-portfolio-theme="qbasic"] .portfolio-page {
+	--portfolio-bg: #08083b;
+	--portfolio-panel: #000082;
+	--portfolio-ink: #fffdef;
+	--portfolio-secondary: #e3e9ff;
+	--portfolio-muted: #c5cef0;
+	--portfolio-accent: #ffff9a;
+	--portfolio-line: #9eaed8;
+	--portfolio-chrome: #c6c6ce;
+	--portfolio-chrome-ink: #11112c;
+}

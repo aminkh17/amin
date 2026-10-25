@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+coverage/
+*.log
+.DS_Store
+
+# Never commit deployment secrets or machine-specific source configuration.
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+config/*.local.json
+
+# Real résumé source/artifacts stay outside Git, even when the deployed
+# professional context is intentionally public.
+private/
+src/data/generated/
+my-resume*.yaml
+my-resume*.yml
+resume.yaml
+resume.yml

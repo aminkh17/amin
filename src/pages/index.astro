@@ -1,0 +1,134 @@
+---
+import ProfileLinks from "../components/ProfileLinks.astro";
+import { profile } from "../data/amin";
+import "../styles/theme.css";
+import "../styles/portfolio.css";
+
+const title = "Amin Khodabandeh — Engineering, cloud & AI";
+Astro.response.headers.set("Referrer-Policy", "no-referrer");
+Astro.response.headers.set("X-Content-Type-Options", "nosniff");
+---
+
+<!doctype html>
+<html lang="en" data-portfolio-theme="terminal">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#171a19" />
+		<meta name="description" content={profile.summary} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={profile.summary} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://amin.kuara.dev/" />
+		<link rel="canonical" href="https://amin.kuara.dev/" />
+		<link rel="icon" type="image/svg+xml" href="/amin.svg" />
+		<title>{title}</title>
+		<script is:inline>
+			// Before first paint: random per tab/session, unless a visitor chose a theme.
+			(() => {
+				let theme = Math.random() < 0.5 ? "terminal" : "qbasic";
+				try {
+					const saved = localStorage.getItem("amin-theme") || sessionStorage.getItem("amin-session-theme");
+					if (saved === "terminal" || saved === "qbasic") theme = saved;
+					sessionStorage.setItem("amin-session-theme", theme);
+				} catch {}
+				document.documentElement.dataset.portfolioTheme = theme;
+				document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "qbasic" ? "#000082" : "#171a19");
+			})();
+		</script>
+	</head>
+	<body class="portfolio-page">
+		<a class="skip-link" href="#about">Skip to profile</a>
+		<div class="portfolio-shell">
+			<header class="masthead">
+				<a class="site-address" href="/">amin.kuara.dev<span aria-hidden="true">_</span></a>
+				<a class="parent-link" href="https://kuara.dev/">a corner of Kuara <span aria-hidden="true">↗</span></a>
+			</header>
+
+			<div class="workspace">
+				<div class="titlebar">
+					<span class="window-mark" aria-hidden="true">[&nbsp;]</span>
+					<span class="terminal-only">amin / personal overview</span>
+					<span class="qbasic-only">AMIN.BAS</span>
+					<button id="theme-switch" class="theme-switch" type="button" hidden aria-label="Switch visual theme">Switch theme</button>
+				</div>
+				<nav class="menubar" aria-label="Profile navigation">
+					<a href="#about">Overview</a>
+					<a href="#experience">Experience</a>
+					<a href="#work">Work</a>
+					<button type="button" data-command="ai load" hidden>AI guide</button>
+					<span class="document-state">read only</span>
+				</nav>
+
+				<main class="document">
+					<header class="identity" id="about">
+						<p class="section-label"><span aria-hidden="true">01 / </span>About</p>
+						<div class="name-row"><h1>{profile.name}</h1><span class="location">{profile.location}</span></div>
+						<p class="summary">{profile.summary}</p>
+					</header>
+
+					<div class="profile-columns">
+						<section class="career" id="experience" aria-labelledby="experience-title">
+							<h2 class="section-label" id="experience-title"><span aria-hidden="true">02 / </span>Experience</h2>
+							<ol class="career-list">
+								{profile.experience.map((entry) => (
+									<li>
+										<span class="period">{entry.period}</span>
+										<div><h3>{entry.role}</h3><p class="organization">{entry.organization}</p><p>{entry.description}</p></div>
+									</li>
+								))}
+							</ol>
+						</section>
+
+						<div class="work-column">
+							<section id="work" aria-labelledby="work-title">
+								<h2 class="section-label" id="work-title"><span aria-hidden="true">03 / </span>Work, in broad strokes</h2>
+								<ul class="work-list">
+									{profile.work.map((entry) => <li><h3>{entry.title}</h3><p>{entry.description}</p></li>)}
+								</ul>
+							</section>
+							<section class="skills" id="skills" aria-labelledby="skills-title">
+								<h2 class="section-label" id="skills-title"><span aria-hidden="true">04 / </span>Tools & foundations</h2>
+								<ul>{profile.skills.map((skill) => <li>{skill}</li>)}</ul>
+								<p class="education">{profile.education}</p>
+							</section>
+						</div>
+					</div>
+
+					<footer class="contact-row" id="contact">
+						<div class="contact-details">
+							<a class="contact-link" href={`mailto:${profile.email}`}>{profile.email} <span aria-hidden="true">↗</span></a>
+							<ProfileLinks />
+						</div>
+						<p id="privacy">{profile.privacy}</p>
+					</footer>
+				</main>
+
+				<section id="command-panel" class="command-panel" aria-label="Optional command line" hidden>
+					<div class="console-heading"><span class="terminal-only">Optional / command line</span><span class="qbasic-only">Immediate</span><span id="ai-status" role="status">AI off</span></div>
+					<div id="command-output" class="command-output" role="log" aria-label="Command responses" aria-live="polite" aria-relevant="additions" hidden></div>
+					<form id="command-form" class="command-form" autocomplete="off">
+						<label for="command-input" class="prompt"><span class="terminal-only">visitor:~</span><span aria-hidden="true">&gt;</span><span class="sr-only">Command or question</span></label>
+						<input id="command-input" name="command" type="text" maxlength="500" placeholder="help · ai load · ask a question" spellcheck="false" autocapitalize="off" enterkeyhint="send" />
+						<button type="submit">Enter <span aria-hidden="true">↵</span></button>
+					</form>
+				</section>
+			</div>
+			<footer class="page-footer"><span>A short overview. More detail if you ask.</span><button id="print-profile" type="button" hidden>Print / save résumé</button></footer>
+			<noscript><p class="no-script">The overview is above. JavaScript is only needed for themes and the optional, more detailed AI guide.</p></noscript>
+		</div>
+
+		<dialog id="ai-consent" class="consent" aria-labelledby="ai-consent-title">
+			<form method="dialog">
+				<p class="section-label">Optional / on-device AI</p>
+				<h2 id="ai-consent-title">Load a little local guide?</h2>
+				<p>About <strong>350 MB</strong> of model files, with roughly <strong>1 GB of graphics memory</strong> needed. The first load can take a few minutes. Best on a laptop or desktop.</p>
+				<p>Model files download from Hugging Face and MLC. Questions stay in this browser; there is no cloud-chat fallback or conversation logging.</p>
+				<p>The guide also downloads the full professional résumé source, including hidden entries, names and reported achievements not displayed on this page. Personal phone and personal email are excluded. This background is public, not access-controlled.</p>
+				<p class="consent-note">Your browser may cache the model. Use <code>ai unload</code> to release memory or <code>ai forget</code> to remove its cached files.</p>
+				<div class="dialog-actions"><button type="submit" value="cancel">Not now</button><button id="confirm-ai" type="button">Download & load</button></div>
+			</form>
+		</dialog>
+		<script src="../scripts/portfolio.ts"></script>
+	</body>
+</html>

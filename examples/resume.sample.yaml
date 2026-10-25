@@ -1,0 +1,69 @@
+# Entirely fictional schema example, not Amin's career history.
+# Before previewing, make personal.name match src/data/amin.ts (or configure
+# that public profile for your own fork). Do not publish this as a real résumé.
+personal:
+  name: Example Person
+  title: Software Engineering Lead
+  location: Example City
+  work_rights: Example work eligibility statement
+  phone: "+1 555 010 0000" # Redacted by the exporter.
+  email: example-person@example.invalid # Redacted by the exporter.
+  linkedin: https://example.invalid/profile
+
+professional_summary: |
+  [EM] Led a fictional engineering team.
+  [PE] Designed a fictional cloud application.
+
+sectors:
+  - Travel
+  - Education
+
+skills:
+  core_technologies:
+    - TypeScript
+    - SQL
+  platforms:
+    - Example Cloud
+
+work_experience:
+  studio:
+    company: Example Studio
+    role: Engineering Lead
+    period: 2022 - present
+    location: Example City
+    type: Professional Services
+    highlights:
+      - Mentored a fictional team and reviewed application architecture.
+      - Reduced sample test time by 30% in this fictional dataset.
+    client:
+      travel_planner:
+        name: Example Travel Planner
+        client: Example Holidays (Travel)
+        role: Technical Lead
+        period: Jan 2024 - Dec 2024
+        description: Designed a fictional booking workflow and reservation API.
+        technologies:
+          - TypeScript
+          - SQL
+  older_role:
+    company: Example Training Center
+    role: Instructor
+    period: 2020 - 2022
+    location: Example City
+    hide: true # Presentation only: still available to the opt-in assistant.
+    onlytitle: true
+    highlights:
+      - Taught a fictional introductory software course.
+
+education:
+  - degree: Example Software Degree
+    institution: Example University
+    year: 2019
+
+certifications:
+  - Example Cloud Architecture Certificate
+  - Example Leadership Program
+
+strengths:
+  - Clear technical communication
+  - Patient mentoring

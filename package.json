@@ -1,0 +1,38 @@
+{
+  "name": "amin-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aminkh17/amin.git"
+  },
+  "type": "module",
+  "packageManager": "bun@1.4.2",
+  "engines": {
+    "bun": ">=1.4.2"
+  },
+  "scripts": {
+    "dev": "bun run resume:sync && astro dev --port 4323",
+    "build": "bun run resume:sync && astro build",
+    "preview": "astro preview --host 127.0.0.1 --port 4324",
+    "typecheck": "bun run resume:sync && astro check",
+    "resume:sync": "bun scripts/sync-resume.mjs",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.3.1",
+    "@mlc-ai/web-llm": "^0.2.86",
+    "astro": "^7.3.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "^5.20260820.1",
+    "@types/node": "^26.6.5",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.125.0"
+  },
+  "overrides": {
+    "undici@>=7.0.0 <7.30.1": "7.30.1"
+  }
+}
